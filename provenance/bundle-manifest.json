@@ -13,7 +13,7 @@
     "start_here": "Source hashes and 3381 held-out LR scores verified",
     "cnn_audit": "Curated primary-model replay and temporary input reconstruction passed",
     "report_notebook": "All report result tables rechecked after IMRaD restructuring; no numerical changes.",
-    "pdf": "12-page single-column IMRaD manuscript; Shi Wei Leong on title page and PDF metadata; all pages rendered and visually inspected.",
+    "pdf": "12-page single-column IMRaD manuscript with approved single-paragraph abstract; Shi Wei Leong on title page and metadata; pages visually inspected.",
     "public_download_fallback": "Regression checked: installed but unauthenticated gh falls back to public HTTP.",
     "independent_review": {
       "type": "Independent subagent artifact/software review, not scientific peer review",
@@ -771,8 +771,8 @@
       "bytes": 7092
     },
     "docs/final-study-report.md": {
-      "bytes": 29244,
-      "sha256": "8fd5abc2d9924c09702299e3ca2c3636cb9b5c022d02da473338e004130a8494"
+      "bytes": 28764,
+      "sha256": "455801ce1e6eb6a45619291ad9c6ad20854dfd42acc24f738ca2ecd00724dd3e"
     },
     "docs/literature-baselines.md": {
       "sha256": "142dc0f2caaa238e4cdd774889d07b67d61dfd8194ee067fad595eae9a4f0edd",
@@ -891,8 +891,8 @@
       "bytes": 706698
     },
     "notebooks/executed/12_final_report.ipynb": {
-      "sha256": "273f1de3b98996cbff6410635da1fad8dc76bc0a81db95e7d11c1d3c9f7baa7e",
-      "bytes": 218587
+      "sha256": "9ef5227b43e395060869c3dd316e95c0e67de5c9225466a0129110c70dde4f30",
+      "bytes": 218610
     },
     "notebooks/executed/START_HERE.ipynb": {
       "sha256": "77cb30d688cae9544aa2b0216be5c9b08d5ebd057634e9b1a48572355cfda93c",
@@ -1019,12 +1019,12 @@
       "bytes": 22932
     },
     "reports/final-study-report.html": {
-      "bytes": 373113,
-      "sha256": "152a373cf5ba81a81ebd4778254c0ed32a505d659d8f736a6411c6bc72bfe807"
+      "bytes": 372563,
+      "sha256": "b839f770274730dbbbc0d95f8f6dd9d3f589de588633766bda52a7a8f271d0d9"
     },
     "reports/final-study-report.pdf": {
-      "bytes": 328934,
-      "sha256": "ce6ff3f45b3374ad818be02f65b482f3cf564ce408eaf5384b2c98f90950800d"
+      "bytes": 328525,
+      "sha256": "6224dfe219d20b5674ffaffad4fddb7530e1d1b30237be9d5fe95a126e476e89"
     },
     "requirements-report.txt": {
       "sha256": "1fa7b397510bd2f6b00aee8e632213c0e2939b5c7e58968140d6d221d0250294",
