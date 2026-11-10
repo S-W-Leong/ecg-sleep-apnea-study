@@ -16,8 +16,9 @@ archive = cache / meta["filename"]
 if not archive.exists():
     temporary = cache / (meta["filename"] + ".download")
     # Authenticated gh works for this private repo; public HTTP works after visibility changes.
+    downloaded = False
     if shutil.which("gh"):
-        subprocess.run(
+        result = subprocess.run(
             [
                 "gh",
                 "release",
@@ -30,9 +31,10 @@ if not archive.exists():
                 "--dir",
                 str(cache),
             ],
-            check=True,
+            check=False,
         )
-    else:
+        downloaded = result.returncode == 0
+    if not downloaded:
         url = f"https://github.com/{meta['repository']}/releases/download/{meta['release']}/{meta['filename']}"
         with urlopen(url) as source, temporary.open("wb") as target:
             shutil.copyfileobj(source, target)

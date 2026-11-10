@@ -8,12 +8,13 @@
   "published_result_artifacts": 35,
   "original_result_artifacts": 140,
   "validation": {
-    "tests_passed": 38,
+    "tests_passed": 39,
     "tests_warning": "Known sklearn SVC FutureWarning",
     "start_here": "Source hashes and 3381 held-out LR scores verified",
     "cnn_audit": "Curated primary-model replay and temporary input reconstruction passed",
     "report_notebook": "Tables checked and figures regenerated from curated distribution",
-    "pdf": "Rendered pages visually inspected; final report contains 12 pages"
+    "pdf": "Rendered pages visually inspected; final report contains 12 pages",
+    "public_download_fallback": "Regression checked: installed but unauthenticated gh falls back to public HTTP."
   },
   "curation": [
     "Raw/filtered dense arrays are an optional release, with their exact hashes preserved.",
@@ -1049,12 +1050,16 @@
       "bytes": 9434
     },
     "tools/fetch_prepared_waveforms.py": {
-      "sha256": "73c9b59b02b14d10656e75760b895938150e6f5ceacb200e9c7d206532fcf516",
-      "bytes": 2722
+      "sha256": "84c0553edaa7b3f0393da8f0de3e1fbc7745598f739f6d8260f8b237558dcbdb",
+      "bytes": 2812
     },
     "uv.lock": {
       "sha256": "22f129a87faa9d8cd22c89ae800ee2259feff82eeb72aac026a385ab7d024fe7",
       "bytes": 238070
+    },
+    "tests/test_waveform_fetch.py": {
+      "sha256": "9838b305c96c578770c9227119c06e31de13668c02e0185f9ba6cd269259b5a8",
+      "bytes": 1860
     }
   }
 }
