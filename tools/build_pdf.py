@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.platypus import (
@@ -23,7 +23,7 @@ from reportlab.platypus import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-MARGIN = 60
+MARGIN = 72
 WIDTH = A4[0] - 2 * MARGIN
 SOURCE = ROOT / "docs/final-study-report.md"
 OUTPUT = ROOT / "reports/final-study-report.pdf"
@@ -33,8 +33,8 @@ STYLES.add(
     ParagraphStyle(
         "ReportTitle",
         fontName="Times-Bold",
-        fontSize=19,
-        leading=23,
+        fontSize=18,
+        leading=22,
         alignment=TA_CENTER,
         textColor=BLUE,
         spaceAfter=14,
@@ -45,7 +45,8 @@ STYLES.add(
         "ReportBody",
         fontName="Times-Roman",
         fontSize=11,
-        leading=14.8,
+        leading=14.3,
+        alignment=TA_JUSTIFY,
         spaceAfter=8,
         splitLongWords=True,
         allowWidows=0,
@@ -77,15 +78,15 @@ STYLES.add(
     )
 )
 STYLES.add(
-    ParagraphStyle("ReportCell", fontName="Helvetica", fontSize=8, leading=10.5, spaceAfter=0)
+    ParagraphStyle("ReportCell", fontName="Times-Roman", fontSize=8.5, leading=11, spaceAfter=0)
 )
 STYLES.add(
     ParagraphStyle(
         "ReportCaption",
-        fontName="Helvetica",
-        fontSize=8,
-        leading=11,
-        textColor=colors.HexColor("#455a64"),
+        fontName="Times-Roman",
+        fontSize=9,
+        leading=12,
+        textColor=colors.black,
         spaceBefore=5,
         spaceAfter=12,
     )
@@ -182,7 +183,7 @@ def inline(nodes):
             out.append(
                 '<link href="'
                 + html.escape(url, quote=True)
-                + '" color="#185d7b">'
+                + '" color="#000000">'
                 + label
                 + "</link>"
                 if url.startswith(("http://", "https://"))
@@ -218,10 +219,9 @@ def make_table(token):
     table.setStyle(
         TableStyle(
             [
-                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#edf3f6")),
-                ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#fafbfc")]),
-                ("LINEBELOW", (0, 0), (-1, 0), 0.5, colors.HexColor("#9caeb8")),
-                ("LINEBELOW", (0, 1), (-1, -1), 0.25, colors.HexColor("#dce4e8")),
+                ("LINEABOVE", (0, 0), (-1, 0), 0.6, colors.black),
+                ("LINEBELOW", (0, 0), (-1, 0), 0.4, colors.black),
+                ("LINEBELOW", (0, -1), (-1, -1), 0.6, colors.black),
                 ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ("LEFTPADDING", (0, 0), (-1, -1), 7),
                 ("RIGHTPADDING", (0, 0), (-1, -1), 7),
@@ -262,7 +262,7 @@ def blocks(tokens):
                 if "Shi Wei Leong" == re.sub("<[^>]+>", "", text):
                     style = "ReportAuthor"
                 elif "Independent research report" in text:
-                    style = "ReportSubtitle"
+                    continue
                 elif re.match(r"<b>Table \d+\.", text):
                     style = "ReportTableCaption"
                 elif re.fullmatch(r"<b>[^<]+\.</b>", text):
@@ -285,14 +285,12 @@ def blocks(tokens):
     return story
 
 
-def footer(canvas, doc):
+def page_number(canvas, doc):
+    """Plain folio only: no author/title repetition, rule or running footer."""
     canvas.saveState()
-    canvas.setStrokeColor(colors.HexColor("#d5dfe4"))
-    canvas.line(MARGIN, 37, A4[0] - MARGIN, 37)
-    canvas.setFont("Helvetica", 8)
-    canvas.setFillColor(colors.HexColor("#526873"))
-    canvas.drawString(MARGIN, 25, "Shi Wei Leong | ECG sleep apnea classification")
-    canvas.drawRightString(A4[0] - MARGIN, 25, str(doc.page))
+    canvas.setFillColor(colors.black)
+    canvas.setFont("Times-Roman", 9)
+    canvas.drawCentredString(A4[0] / 2, 36, str(doc.page))
     canvas.restoreState()
 
 
@@ -308,8 +306,8 @@ if __name__ == "__main__":
         pagesize=A4,
         rightMargin=MARGIN,
         leftMargin=MARGIN,
-        topMargin=54,
-        bottomMargin=54,
+        topMargin=MARGIN,
+        bottomMargin=MARGIN,
         title="RR interval features and a lightweight CNN for sleep apnea classification",
         author="Shi Wei Leong",
     )
@@ -322,6 +320,7 @@ if __name__ == "__main__":
             "ReportH2",
             "ReportH3",
             "ReportTableCaption",
+            "ReportRunIn",
         }:
             group = [item]
             i += 1
@@ -344,5 +343,5 @@ if __name__ == "__main__":
         else:
             packed.append(item)
             i += 1
-    doc.build(packed, onFirstPage=footer, onLaterPages=footer)
+    doc.build(packed, onFirstPage=page_number, onLaterPages=page_number)
     print(OUTPUT)

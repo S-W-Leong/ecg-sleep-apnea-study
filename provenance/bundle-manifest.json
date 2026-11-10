@@ -13,7 +13,7 @@
     "start_here": "Source hashes and 3381 held-out LR scores verified",
     "cnn_audit": "Curated primary-model replay and temporary input reconstruction passed",
     "report_notebook": "All report result tables rechecked after IMRaD restructuring; no numerical changes.",
-    "pdf": "12-page single-column IMRaD manuscript with approved single-paragraph abstract; Shi Wei Leong on title page and metadata; pages visually inspected.",
+    "pdf": "13-page single-column academic manuscript; one-inch margins, justified serif text, unshaded tables, author on first page only and plain centered page numbers; all pages rendered and visually inspected.",
     "public_download_fallback": "Regression checked: installed but unauthenticated gh falls back to public HTTP.",
     "independent_review": {
       "type": "Independent subagent artifact/software review, not scientific peer review",
@@ -1023,8 +1023,8 @@
       "sha256": "b839f770274730dbbbc0d95f8f6dd9d3f589de588633766bda52a7a8f271d0d9"
     },
     "reports/final-study-report.pdf": {
-      "bytes": 328525,
-      "sha256": "6224dfe219d20b5674ffaffad4fddb7530e1d1b30237be9d5fe95a126e476e89"
+      "bytes": 328348,
+      "sha256": "14e3dc3a327773759cdfd319bee07df4426cc69988cd1903590fc9ddbdd6be10"
     },
     "requirements-report.txt": {
       "sha256": "1fa7b397510bd2f6b00aee8e632213c0e2939b5c7e58968140d6d221d0250294",
@@ -1063,8 +1063,8 @@
       "bytes": 2101
     },
     "tools/build_pdf.py": {
-      "sha256": "27ebf97d85a7d585b3735040ca2c94d742100d2d92364aa950d71ccb6a81b2ef",
-      "bytes": 10958
+      "sha256": "d93957ec81f93fd536a4d9a84de5e6d852314f0bac99b1f9898dc833bc0d0228",
+      "bytes": 10767
     },
     "tools/fetch_prepared_waveforms.py": {
       "sha256": "84c0553edaa7b3f0393da8f0de3e1fbc7745598f739f6d8260f8b237558dcbdb",
