@@ -268,7 +268,7 @@ Analysis is implemented in ordered notebooks. [Notebook 00](../notebooks/00_prep
 
 The evaluated run is `real-20261109-v1` under `data/processed/portfolio-v2/plan001-real-20261108/full/`. Its 29 configurations include fixed ablations, tuned pipelines, repeat seeds and trivial references. Every configuration contains one outer prediction for each cohort window. All 24 candidates per pipeline and outer fold are accounted for. The complete result export contains 140 hashed artifacts; no fitting failures were recorded. SVC deprecation warnings were recorded without changing the frozen implementation.
 
-Source notebooks contain no large outputs. Data, checkpoints and executed reports remain under ignored `data/` and `reports/`. The tracked report retains the tables needed to read its conclusions without those files; Notebook 12 produces a standalone HTML copy with embedded figures. That HTML can be shared without hosting the recordings or checkpoints.
+Source notebooks contain no large outputs. This showcase tracks the curated datasets, primary models, executed notebook snapshots and report figures. Candidate checkpoints and redundant caches are omitted; new run outputs are ignored. The exact prepared waveforms are an optional release download. The report retains its main tables, and Notebook 12 produces a standalone HTML copy with embedded figures that can be shared without distributing recordings or checkpoints.
 
 Freeze identity: `1765caa330e2136b1f16f61828fae0a568bcc36b0730bd3b2cfd9b3d7e2f1363`.
 

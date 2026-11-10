@@ -14,7 +14,24 @@
     "cnn_audit": "Curated primary-model replay and temporary input reconstruction passed",
     "report_notebook": "Tables checked and figures regenerated from curated distribution",
     "pdf": "Rendered pages visually inspected; final report contains 12 pages",
-    "public_download_fallback": "Regression checked: installed but unauthenticated gh falls back to public HTTP."
+    "public_download_fallback": "Regression checked: installed but unauthenticated gh falls back to public HTTP.",
+    "independent_review": {
+      "type": "Independent subagent artifact/software review, not scientific peer review",
+      "base_commit": "614d1a41c697e85f845cbeb1937059fcf2dea9f3",
+      "result": "No remaining publication blockers after the downloader fix and report policy correction",
+      "checks": [
+        "Tracked-files-only export: 38 original tests passed",
+        "START_HERE and Notebook09 rerun independently; 3381 held-out LR scores replayed",
+        "Independent cohort counts and original 258 bundle hashes verified",
+        "Downloader regression test independently passed",
+        "Report, data terms, model documentation and notebook paths inspected"
+      ],
+      "limits": [
+        "No retraining or cross-platform installation validation",
+        "Reviewer did not independently repeat every waveform/CNN audit",
+        "Final report appendix correction visually checked by primary agent; first11 PDF pages unchanged"
+      ]
+    }
   },
   "curation": [
     "Raw/filtered dense arrays are an optional release, with their exact hashes preserved.",
@@ -754,8 +771,8 @@
       "bytes": 7092
     },
     "docs/final-study-report.md": {
-      "sha256": "c38ff93873d4fa32699aafe20969ed8112f2202c44a047e57cb7c7e72b8f0088",
-      "bytes": 29087
+      "bytes": 29203,
+      "sha256": "5fd8af08af2474beb77be8ebf0fd72624b707620e354b3c1aa033f250993fe39"
     },
     "docs/literature-baselines.md": {
       "sha256": "142dc0f2caaa238e4cdd774889d07b67d61dfd8194ee067fad595eae9a4f0edd",
@@ -1002,12 +1019,12 @@
       "bytes": 22932
     },
     "reports/final-study-report.html": {
-      "sha256": "095c34e77ec63d86e06a38a5972361d9f1ca1cbccfa3f0f5fb6b8b960be7a8b8",
-      "bytes": 373030
+      "bytes": 373124,
+      "sha256": "2979adb5b814e816a79a18067a675b5162c8319926664eba351dde0c99068cef"
     },
     "reports/final-study-report.pdf": {
-      "sha256": "a14d1e8d9d16a028ce5805e88f7c829d8065cf4c819ea618996ea62c4f57203d",
-      "bytes": 328576
+      "bytes": 328638,
+      "sha256": "94969fc625e58bdc69d7d256d7c8b2251b3c276040a53d45c8adc03d819206c0"
     },
     "requirements-report.txt": {
       "sha256": "1fa7b397510bd2f6b00aee8e632213c0e2939b5c7e58968140d6d221d0250294",
