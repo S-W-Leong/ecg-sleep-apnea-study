@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.platypus import (
@@ -22,17 +23,19 @@ from reportlab.platypus import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-WIDTH = A4[0] - 96
+MARGIN = 60
+WIDTH = A4[0] - 2 * MARGIN
 SOURCE = ROOT / "docs/final-study-report.md"
 OUTPUT = ROOT / "reports/final-study-report.pdf"
-BLUE = colors.HexColor("#183d50")
+BLUE = colors.black
 STYLES = getSampleStyleSheet()
 STYLES.add(
     ParagraphStyle(
         "ReportTitle",
-        fontName="Helvetica-Bold",
-        fontSize=22,
-        leading=26,
+        fontName="Times-Bold",
+        fontSize=19,
+        leading=23,
+        alignment=TA_CENTER,
         textColor=BLUE,
         spaceAfter=14,
     )
@@ -41,8 +44,8 @@ STYLES.add(
     ParagraphStyle(
         "ReportBody",
         fontName="Times-Roman",
-        fontSize=10.5,
-        leading=14.2,
+        fontSize=11,
+        leading=14.8,
         spaceAfter=8,
         splitLongWords=True,
         allowWidows=0,
@@ -52,8 +55,8 @@ STYLES.add(
 STYLES.add(
     ParagraphStyle(
         "ReportH2",
-        fontName="Helvetica-Bold",
-        fontSize=14,
+        fontName="Times-Bold",
+        fontSize=13,
         leading=18,
         textColor=BLUE,
         spaceBefore=16,
@@ -64,7 +67,7 @@ STYLES.add(
 STYLES.add(
     ParagraphStyle(
         "ReportH3",
-        fontName="Helvetica-Bold",
+        fontName="Times-Bold",
         fontSize=11,
         leading=14,
         textColor=BLUE,
@@ -85,6 +88,48 @@ STYLES.add(
         textColor=colors.HexColor("#455a64"),
         spaceBefore=5,
         spaceAfter=12,
+    )
+)
+STYLES.add(
+    ParagraphStyle(
+        "ReportAuthor",
+        fontName="Times-Roman",
+        fontSize=12,
+        leading=16,
+        alignment=TA_CENTER,
+        spaceAfter=5,
+    )
+)
+STYLES.add(
+    ParagraphStyle(
+        "ReportSubtitle",
+        fontName="Times-Italic",
+        fontSize=9.5,
+        leading=13,
+        alignment=TA_CENTER,
+        spaceAfter=17,
+    )
+)
+STYLES.add(
+    ParagraphStyle(
+        "ReportTableCaption",
+        fontName="Times-Roman",
+        fontSize=9,
+        leading=12,
+        spaceBefore=6,
+        spaceAfter=5,
+        keepWithNext=True,
+    )
+)
+STYLES.add(
+    ParagraphStyle(
+        "ReportRunIn",
+        fontName="Times-Bold",
+        fontSize=10.5,
+        leading=14,
+        spaceBefore=5,
+        spaceAfter=5,
+        keepWithNext=True,
     )
 )
 CAPTIONS = {
@@ -213,7 +258,18 @@ def blocks(tokens):
                     )
                     story.append(KeepTogether([Spacer(1, 8), fig, caption]))
             else:
-                story.append(Paragraph(inline(children), STYLES["ReportBody"]))
+                text = inline(children)
+                if "Shi Wei Leong" == re.sub("<[^>]+>", "", text):
+                    style = "ReportAuthor"
+                elif "Independent research report" in text:
+                    style = "ReportSubtitle"
+                elif re.match(r"<b>Table \d+\.", text):
+                    style = "ReportTableCaption"
+                elif re.fullmatch(r"<b>[^<]+\.</b>", text):
+                    style = "ReportRunIn"
+                else:
+                    style = "ReportBody"
+                story.append(Paragraph(text, STYLES[style]))
         elif typ == "table":
             story.extend(make_table(t))
         elif typ == "list":
@@ -232,11 +288,11 @@ def blocks(tokens):
 def footer(canvas, doc):
     canvas.saveState()
     canvas.setStrokeColor(colors.HexColor("#d5dfe4"))
-    canvas.line(48, 37, A4[0] - 48, 37)
+    canvas.line(MARGIN, 37, A4[0] - MARGIN, 37)
     canvas.setFont("Helvetica", 8)
     canvas.setFillColor(colors.HexColor("#526873"))
-    canvas.drawString(48, 25, "ECG sleep apnea classification | Study report")
-    canvas.drawRightString(A4[0] - 48, 25, str(doc.page))
+    canvas.drawString(MARGIN, 25, "Shi Wei Leong | ECG sleep apnea classification")
+    canvas.drawRightString(A4[0] - MARGIN, 25, str(doc.page))
     canvas.restoreState()
 
 
@@ -250,25 +306,30 @@ if __name__ == "__main__":
     doc = SimpleDocTemplate(
         str(OUTPUT),
         pagesize=A4,
-        rightMargin=48,
-        leftMargin=48,
-        topMargin=45,
-        bottomMargin=52,
+        rightMargin=MARGIN,
+        leftMargin=MARGIN,
+        topMargin=54,
+        bottomMargin=54,
         title="RR interval features and a lightweight CNN for sleep apnea classification",
-        author="S-W-Leong",
+        author="Shi Wei Leong",
     )
     story = blocks(tokens)
     packed = []
     i = 0
     while i < len(story):
         item = story[i]
-        if isinstance(item, Paragraph) and item.style.name in {"ReportH2", "ReportH3"}:
+        if isinstance(item, Paragraph) and item.style.name in {
+            "ReportH2",
+            "ReportH3",
+            "ReportTableCaption",
+        }:
             group = [item]
             i += 1
             while (
                 i < len(story)
                 and isinstance(story[i], Paragraph)
-                and story[i].style.name in {"ReportH2", "ReportH3"}
+                and story[i].style.name
+                in {"ReportH2", "ReportH3", "ReportTableCaption", "ReportRunIn"}
             ):
                 group.append(story[i])
                 i += 1

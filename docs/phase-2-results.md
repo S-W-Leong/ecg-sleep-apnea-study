@@ -1,6 +1,6 @@
 # RR feature ablation results
 
-The final controlled RQ1 results use the same five grouped outer folds and fixed classifier settings across all feature sets. See [the final report, RQ1](final-study-report.md#4-results-for-rq1) for the full interpretation.
+The final controlled RQ1 results use the same five grouped outer folds and fixed classifier settings across all feature sets. See [the final report, RQ1](final-study-report.md#31-rr-feature-ablations) for the full interpretation.
 
 | Classifier | Basic F1 AP | Expanded F2 AP | Difference |
 | --- | ---: | ---: | ---: |

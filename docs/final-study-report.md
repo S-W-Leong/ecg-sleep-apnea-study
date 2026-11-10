@@ -1,16 +1,24 @@
 # RR interval features and a lightweight CNN for sleep apnea classification
 
-**Final study report · November 2026**
+**Shi Wei Leong**
+
+*Independent research report · November 2026*
 
 ## Abstract
 
-This study compared ECG representations and classifiers for identifying apnea-associated one-minute annotations in the PhysioNet Apnea-ECG learning cohort. After removing one overlapping recording, the analysis included 34 recordings, 16,558 minutes and 24 literature-derived groups. Two questions were examined: whether RR variability features improve on basic cardiac summaries, and how feature-based classifiers compare with a compact waveform CNN. All methods used the same retained windows and five outer grouped folds. Hyperparameters were selected within three inner folds; operating thresholds were chosen from inner out-of-fold predictions.
+**Background:** ECG interval features and waveform models offer different representations of the same recording. This study examined whether RR variability improves on basic cardiac summaries and whether a lightweight CNN improves on feature-based classifiers.
 
-Adding SDRR, RMSSD and pRR50 increased mean outer-fold average precision (AP) by 0.248 for logistic regression, 0.107 for random forest and 0.141 for XGBoost under fixed classifier settings. SDRR had the largest conditional removal effect. In the tuned comparison, logistic regression achieved the highest observed mean AP (0.646), followed by an adapted literature linear SVM (0.603), XGBoost (0.540), random forest (0.502) and the 100 Hz CNN (0.474). The constant-score reference was 0.395.
+**Methods:** The analysis included 34 PhysioNet Apnea-ECG learning recordings, 16,558 one-minute windows and 24 literature-derived groups. Fixed-setting feature ablations addressed RQ1. For RQ2, logistic regression, random forest, XGBoost, an adapted literature linear SVM and a 100 Hz CNN were compared using five outer grouped folds and three inner folds. Hyperparameters and operating thresholds were selected within outer training data. Mean outer-fold average precision (AP) was the primary outcome.
 
-Ranking performance did not translate into reliable decisions. At the training-selected thresholds, all models had pooled specificity below 0.41; the CNN predicted every minute positive in two folds. Follow-up checks reproduced the CNN inputs, predictions, filtering and stopping decisions, while exposing poor stopping-group generalization and constant-signal intervals in the source data. The findings support the value of RR variability within this experiment, but do not establish general superiority of classical models or clinical usefulness. Unverified subject identities, prior cohort exposure and the absence of external validation limit the conclusions.
+**Results:** Adding SDRR, RMSSD and pRR50 increased mean AP by 0.248 for logistic regression, 0.107 for random forest and 0.141 for XGBoost. SDRR had the largest conditional removal effect. Tuned logistic regression achieved the highest observed mean AP (0.646), followed by the adapted SVM (0.603), XGBoost (0.540), random forest (0.502) and CNN (0.474); the constant-score reference was 0.395. All primary models had pooled specificity below 0.41 at their selected thresholds. The CNN predicted every held-out minute positive in two folds. Audits reproduced the saved CNN inputs and scores and traced 17 near-flat minutes to constant source samples.
 
-## 1. Research questions
+**Conclusions:** RR variability improved ranking within this experiment, but operating points did not generalize reliably across groups. The tested CNN did not demonstrate an advantage over the feature-based pipelines. Unverified subject identities, prior cohort exposure and the absence of external validation limit the findings to exploratory internal evaluation.
+
+## 1. Introduction
+
+A feature-based ECG classifier depends on what its input summaries preserve. Mean interval and heart-rate measures describe cardiac level, while variability measures describe changes between beats. A waveform model instead learns from the filtered samples. Comparing these approaches on the same retained windows makes it possible to examine the information added by engineered variability features and the performance of a small learned representation.
+
+The study used two research questions to separate feature effectiveness from pipeline comparison. Its purpose was to evaluate a defined set of representations and models under a common grouped protocol, including the cases where ranking and thresholded decisions gave different impressions of performance.
 
 The task was to classify existing one-minute annotations using ECG alone. It was not to diagnose a person, estimate a clinical apnea–hypopnea index, or replace respiratory measurements.
 
@@ -22,11 +30,13 @@ A basic representation, F1, contained mean RR, median RR and mean instantaneous 
 
 Logistic regression, random forest and XGBoost using F2 were compared with a compact 1D CNN using filtered ECG waveforms. An independently implemented adaptation of a published linear SVM method provided a literature-derived comparator. This was a comparison of complete input-and-model pipelines: it did not isolate classifier choice from representation.
 
-## 2. Data and signal preparation
+## 2. Methods
 
-### 2.1 Cohort and reference labels
+### 2.1 Data source and study cohort
 
 The source was the [PhysioNet Apnea-ECG database, version 1.0.0](https://physionet.org/content/apnea-ecg/1.0.0/). Its ECG is sampled at 100 Hz, and the reference annotations were assigned by experts using simultaneously recorded respiratory and related signals. The database documents that `c05` overlaps `c06`; `c05` was excluded. Only the learning cohort was analyzed. The separate challenge test cohort was not used as external validation.
+
+**Table 1. Cohort characteristics.**
 
 | Cohort characteristic | Value |
 | --- | ---: |
@@ -52,6 +62,8 @@ Complete finite windows were retained even when flagged for flat signal, low amp
 
 ### 2.3 Feature definitions
 
+**Table 2. Feature representations and definitions.**
+
 | Representation | Feature | Definition |
 | --- | --- | --- |
 | F1 | Mean RR | Mean accepted interval, in ms |
@@ -63,9 +75,7 @@ Complete finite windows were retained even when flagged for flat signal, low amp
 
 At least 20 accepted intervals were required; RMSSD and pRR50 also required ten valid adjacent pairs. Undefined values remained missing until fold-local imputation. These are detected RR statistics, not audited normal-to-normal measurements. Their predictive value does not validate a physiological interpretation of one-minute HRV.
 
-## 3. Evaluation design
-
-### 3.1 Grouped nested evaluation
+### 2.4 Grouped nested evaluation
 
 Five outer folds held each literature-derived group out once. Within each outer training partition, three inner grouped folds were shared across models. Imputation, scaling and fitting-dependent class weights used only the current training partition. Identifiers, groups, quality flags and labels were excluded from predictors.
 
@@ -76,7 +86,7 @@ The two questions used different controls:
 
 For every selected pipeline, a threshold maximized F1-score on inner out-of-fold predictions, with the lowest threshold breaking ties. That threshold was then applied unchanged to the outer held-out groups. Outer labels did not select hyperparameters, epochs or thresholds. The evaluation protocol, candidate lists, input hashes and source versions were frozen before these outer evaluations.
 
-### 3.2 Models and CNN training
+### 2.5 Models and CNN training
 
 Classical models used median imputation; logistic regression and the SVM additionally used standard scaling. The literature comparator adapted Almazaydeh et al. [3] using 11 local RR statistics and a linear SVM. Its windows were 60 seconds, its beat extraction followed this project's common policy, and recording-wide summaries were omitted. It was an adaptation, not an exact reproduction or execution of author code. Expert reference labels were not a human-performance baseline.
 
@@ -86,7 +96,7 @@ CNN epochs were calibrated using a stopping subset drawn only from inner trainin
 
 Primary results used seed 67. Random forest, XGBoost and CNN were also refitted with seeds 167 and 267, retaining selected settings and epoch schedules. These runs measured refit sensitivity, not independent cohort replications; no seed was selected as the winner and predictions were not ensembled.
 
-### 3.3 Metrics and uncertainty
+### 2.6 Metrics and uncertainty
 
 The primary outcome was the **arithmetic mean of five outer-fold AP scores**, using scikit-learn's average-precision definition. AP summarizes precision across recall levels; it is not classification accuracy. A constant scorer's mean fold AP was 0.395, reflecting mean fold prevalence.
 
@@ -94,9 +104,17 @@ Pooled outer predictions supplied secondary AP, ROC-AUC, F1-score, sensitivity a
 
 Whole groups were resampled jointly across methods for 2,000 paired bootstrap draws. The reported percentile intervals describe differences in **pooled AP conditional on the fitted predictions**. They do not cover all training or tuning uncertainty and are not intervals for the primary mean fold AP. No minute-level significance test was used. Fold standard deviations are descriptive.
 
-## 4. Results for RQ1
+### 2.7 Post hoc implementation and signal checks
 
-### 4.1 RR variability improved the expanded representation
+After evaluation, independent checks reconstructed the cached CNN inputs, replayed saved model predictions and recalculated inner-selected thresholds. Selected calibration histories were checked against the stopping rule. Near-flat intervals were traced to original WFDB digital and physical samples, source annotations and whole-record filtering. These were exploratory diagnostics; they did not change the evaluated models, thresholds or cohort.
+
+## 3. Results
+
+### 3.1 RR feature ablations
+
+**Expanded versus basic features.**
+
+**Table 3. Basic and expanded features under fixed classifier settings.**
 
 | Fixed-setting classifier | Basic F1 AP | Expanded F2 AP | F2 − F1 |
 | --- | ---: | ---: | ---: |
@@ -108,7 +126,9 @@ Values are means across matched outer folds; differences are calculated before r
 
 ![Study evidence: rq1](../reports/figures/rq1.png)
 
-### 4.2 SDRR had the largest conditional removal effect
+**Conditional feature removal.**
+
+**Table 4. Conditional feature-removal results.**
 
 | Fixed-setting classifier | Full F2 | Without SDRR | Without RMSSD | Without pRR50 |
 | --- | ---: | ---: | ---: | ---: |
@@ -120,11 +140,11 @@ Removing SDRR reduced AP by 0.293, 0.152 and 0.168, respectively. Removing RMSSD
 
 Removing pRR50 modestly increased mean AP for all three models, by 0.012–0.018. The fold-level changes were mixed, so this is evidence of limited incremental value in this representation, not a consistent benefit from removing it everywhere. The prespecified F2 representation remained the basis of RQ2.
 
-**Answer to RQ1:** RR variability improved classification relative to basic interval and heart-rate summaries in this experiment. SDRR contributed most among the tested conditional removals; RMSSD added useful information, while pRR50 showed little additional benefit. These results describe predictive dependence within the tested feature sets, not physiological causation or universal feature importance.
+### 3.2 Tuned pipeline comparison
 
-## 5. Results for RQ2
+**Mean performance.**
 
-### 5.1 Logistic regression led the tuned comparison
+**Table 5. Tuned pipeline performance.**
 
 | Tuned pipeline | Mean fold AP | Fold SD | Pooled AP | Pooled ROC-AUC |
 | --- | ---: | ---: | ---: | ---: |
@@ -139,7 +159,9 @@ Logistic regression exceeded the CNN by 0.172 mean AP and XGBoost by 0.106. The 
 
 The bounded searches did not produce consistent gains over fixed F2 settings: AP changed from 0.650 to 0.646 for logistic regression, 0.507 to 0.502 for random forest, and 0.531 to 0.540 for XGBoost. Better inner selection does not guarantee better held-out performance. Both analyses are retained rather than choosing whichever scored better on the outer data.
 
-### 5.2 Performance depended strongly on the held-out groups
+**Fold and seed variability.**
+
+**Table 6. Average precision by outer fold.**
 
 | Pipeline | Fold 1 AP | Fold 2 AP | Fold 3 AP | Fold 4 AP | Fold 5 AP |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -155,7 +177,9 @@ The CNN led fold 4 among the three F2 classical models, despite its lower overal
 
 Repeat-seed mean AP was 0.502/0.503/0.502 for random forest, 0.540/0.540/0.541 for XGBoost and 0.474/0.487/0.476 for the CNN. Seed changes did not reverse the main ordering among these pipelines, but small mean seed variation does not resolve uncertainty about unseen groups.
 
-### 5.3 The uncertainty supports a narrower conclusion than the mean ranking
+**Conditional uncertainty.**
+
+**Table 7. Conditional paired bootstrap intervals for pooled AP differences.**
 
 | Pooled AP difference: XGBoost minus comparator | Estimate | Conditional 95% interval |
 | --- | ---: | --- |
@@ -166,9 +190,9 @@ Repeat-seed mean AP was 0.502/0.503/0.502 for random forest, 0.540/0.540/0.541 f
 
 All comparisons had 2,000 valid draws. The LR comparison offers conditional exploratory evidence favoring LR over XGBoost. The other intervals cross zero. These intervals are not adjusted for multiple comparisons, and direct LR–CNN or LR–SVM intervals were not part of the exported comparison set. The mean ranking should not be described as proof that every adjacent pair differs reliably.
 
-**Answer to RQ2:** logistic regression achieved the highest observed mean AP among the tested pipelines, and the adapted literature SVM was also competitive. The compact CNN did not demonstrate an advantage. The evidence does not establish that classical models generally outperform deep learning, nor that this CNN result represents the best attainable waveform model.
+### 3.3 Thresholded performance
 
-## 6. Ranking did not produce reliable operating points
+**Table 8. Pooled performance at the inner-selected operating points.**
 
 | Pipeline | Pooled sensitivity | Pooled specificity | Pooled F1-score |
 | --- | ---: | ---: | ---: |
@@ -185,6 +209,8 @@ The CNN predicted every held-out minute positive in folds 4 and 5. Random forest
 
 The threshold audit showed that the problem began before outer evaluation:
 
+**Table 9. CNN positive prediction rates before and after outer refitting.**
+
 | CNN fold | Inner-selected threshold | Inner positive rate | Outer positive rate |
 | --- | ---: | ---: | ---: |
 | 1 | 0.425 | 59.5% | 75.8% |
@@ -195,17 +221,17 @@ The threshold audit showed that the problem began before outer evaluation:
 
 In fold 4, inner median scores for negative and positive minutes were 0.378 and 0.374, showing little useful separation. Maximizing F1 on those scores already favored calling almost everything positive. F1 maximization imposed no minimum specificity.
 
-Other folds showed score-scale changes: in fold 1, the negative median rose from 0.378 on inner out-of-fold predictions to 0.629 on outer predictions. An inner threshold combines scores from several fitted models and may not match the scale of the final refit. Weak separation, permissive threshold selection and score-distribution changes all contributed to the observed pattern; the audit did not identify a single cause.
+Other folds showed score-scale changes: in fold 1, the negative median rose from 0.378 on inner out-of-fold predictions to 0.629 on outer predictions. The observed pattern includes weak score separation, permissive threshold selection and changes in score distributions. These diagnostics did not isolate a single cause.
 
 ![Study evidence: thresholds](../reports/figures/thresholds.png)
 
-## 7. CNN training and preprocessing audit
+### 3.4 Post hoc CNN and signal audit
 
-### 7.1 The implementation checks reproduced the saved outputs
+**Implementation checks.**
 
 All 16,558 cached CNN minutes matched independently reconstructed source preprocessing exactly. All 15 exported CNNs—five folds and three seeds—reproduced their saved outer scores with zero maximum absolute difference. Independent threshold calculations agreed with the saved primary thresholds across all five pipelines. These checks found no cache-ordering or inference-conversion error; they do not prove that every upstream decision was appropriate.
 
-### 7.2 Short refits reflected unstable stopping-group performance
+**Selected training curves.**
 
 Seven of the 15 selected CNN calibration runs chose epoch 1. Other runs selected as late as epoch 23; the final outer schedules were 1, 1, 3, 2 and 1 epochs. The stopping decisions and refit lengths matched the specified rule.
 
@@ -213,11 +239,7 @@ Training loss decreased in every selected calibration run, while final stopping 
 
 ![Study evidence: curves](../reports/figures/curves.png)
 
-These trajectories do not show that simply training longer would help. More observed epochs often worsened stopping BCE. BCE and AP measure different properties, but per-epoch stopping AP was not saved, so an objective mismatch remains a hypothesis. The median epoch rule also compresses heterogeneous histories into very short refits.
-
-The fixed architecture offers another limitation: its local receptive field before global pooling spans 113 input samples, about 1.13 seconds at 100 Hz. It aggregates local responses across the minute without explicitly modeling long interval sequences. Whether that restriction explains its weak performance needs a separate experiment.
-
-### 7.3 Near-flat minutes originated in the raw recordings
+**Source signal quality.**
 
 Seventeen filtered minutes fell below the normalization floor. Each contained exactly one digital value in the original WFDB recording: sixteen were constant at zero, and one at 2047 digital units. Saved raw physical samples matched original decoding. Independently reconstructed whole-record filtering matched the saved arrays exactly for all seven affected recordings, and the corresponding source annotations matched their retained labels.
 
@@ -227,11 +249,27 @@ All 17 minutes were already flagged as flat and low-amplitude. They were retaine
 
 These minutes account for roughly 0.10% of the cohort. They establish a source-quality issue, but not an explanation for the overall performance gap. No windows were removed and no replacement scores were calculated after this finding.
 
-## 8. Discussion and limitations
+## 4. Discussion
+
+### 4.1 Interpretation of RQ1 and RQ2
+
+**Answer to RQ1:** RR variability improved classification relative to basic interval and heart-rate summaries in this experiment. SDRR contributed most among the tested conditional removals; RMSSD added useful information, while pRR50 showed little additional benefit. These results describe predictive dependence within the tested feature sets, not physiological causation or universal feature importance.
+
+**Answer to RQ2:** logistic regression achieved the highest observed mean AP among the tested pipelines, and the adapted literature SVM was also competitive. The compact CNN did not demonstrate an advantage. The evidence does not establish that classical models generally outperform deep learning, nor that this CNN result represents the best attainable waveform model.
 
 The clearest finding is that interval variability mattered more than basic cardiac level summaries. Within the fixed ablation, SDRR and RMSSD added information that all three classifiers used. A six-feature linear model then led the tuned comparison. This favors a simple model as the starting point for further development on this task, rather than assuming a more complex estimator will generalize better.
 
 The practical result is less favorable. Even the leading model combined sensitivity of 0.760 with specificity of 0.406. Fold differences, permissive thresholds and unstable CNN stopping histories show that the remaining problem is not adequately described by a single average score.
+
+### 4.2 Training and operating-point implications
+
+An inner threshold combines scores from several fitted models and may not match the scale of the final refit. The threshold audit therefore points to both permissive development operating points and score-distribution differences, rather than a single transfer failure.
+
+These trajectories do not show that simply training longer would help. More observed epochs often worsened stopping BCE. BCE and AP measure different properties, but per-epoch stopping AP was not saved, so an objective mismatch remains a hypothesis. The median epoch rule also compresses heterogeneous histories into very short refits.
+
+The fixed architecture offers another limitation: its local receptive field before global pooling spans 113 input samples, about 1.13 seconds at 100 Hz. It aggregates local responses across the minute without explicitly modeling long interval sequences. Whether that restriction explains its weak performance needs a separate experiment.
+
+### 4.3 Limitations
 
 Several limits govern interpretation:
 
@@ -243,9 +281,11 @@ Several limits govern interpretation:
 6. **Uncertainty is only partly measured.** Bootstrap intervals condition on saved predictions and omit full refitting/tuning variation. Repeated seeds add no independent subjects. Large fold variation remains relevant despite stable mean seed scores.
 7. **Practical deployment was not assessed.** These thresholds were not selected for a specified clinical operating requirement, calibration was not established, and complete preprocessing-to-prediction serving cost was not benchmarked. Parameter count alone is not a deployment evaluation.
 
+### 4.4 Further work
+
 A useful next study would define signal-quality handling and operating-point requirements in advance, record per-epoch ranking metrics alongside loss, and evaluate a small set of training policies on development data. Any model changes prompted by these outer results remain exploratory on this cohort. Stronger evidence requires independent data with verified identities.
 
-## 9. Conclusion
+### 4.5 Conclusions
 
 **RQ1:** adding RR variability improved mean AP across all three fixed-setting classifiers. SDRR had the strongest conditional contribution, RMSSD added information, and pRR50 provided little incremental value in the tested representation.
 
@@ -253,23 +293,15 @@ A useful next study would define signal-quality handling and operating-point req
 
 The study provides a reproducible comparison and a documented account of where the methods failed. Its strongest result is evidence for RR variability in this setting; its central limitation is uncertain generalization beyond the evaluated groups.
 
+## Data and code availability
+
+The companion [study repository](https://github.com/S-W-Leong/ecg-sleep-apnea-study) contains the analyzed source recordings, feature tables, group assignments, reported predictions and metrics, notebook sources, executed evidence snapshots and 25 primary outer-fold models. Extra-seed and ablation predictions remain included; their model binaries and candidate checkpoints are omitted. Exact prepared waveforms are available as a separate checksum-verified release download.
+
+The [reproduction guide](https://github.com/S-W-Leong/ecg-sleep-apnea-study/blob/main/REPRODUCING.md) documents the environment, artifact manifests and execution order. Notebook 12 checks the report tables against saved results before rendering. Original code and associated documentation use the MIT license; PhysioNet data retain their separate ODC-By attribution terms. The full source and bundle manifests distinguish the completed evaluation from the curated distribution.
+
 ## References
 
 1. Penzel T, Moody GB, Mark RG, Goldberger AL, Peter JH. *The Apnea-ECG Database.* Computers in Cardiology. 2000;27:255–258. [Dataset version 1.0.0 and source citation](https://physionet.org/content/apnea-ecg/1.0.0/), DOI [10.13026/C23W2R](https://doi.org/10.13026/C23W2R). Data are distributed under the Open Data Commons Attribution License v1.0.
 2. Yeh CY, Chang HY, Hu JY, Lin CC. *Contribution of Different Subbands of ECG in Sleep Apnea Detection Evaluated Using Filter Bank Decomposition and a Convolutional Neural Network.* Sensors. 2022;22(2):510. [doi:10.3390/s22020510](https://doi.org/10.3390/s22020510). Table 1 is the recorded grouping source; local assignments remain explicit in Notebook 01.
 3. Almazaydeh L, Elleithy K, Faezipour M. *Obstructive sleep apnea detection using SVM-based classification of ECG signal features.* EMBC. 2012:4938–4941. [doi:10.1109/EMBC.2012.6347100](https://doi.org/10.1109/EMBC.2012.6347100). Source fidelity and adaptations are documented in the [baseline register](literature-baselines.md).
 4. Pollard T, Moody BE, Lehman L, et al. *PhysioNet as a global platform for biomedical research.* Nature Health. 2026;1:792–795. [doi:10.1038/s44360-026-00096-z](https://doi.org/10.1038/s44360-026-00096-z). Platform citation requested by the dataset provider.
-
-## Reproducibility appendix
-
-This showcase contains the primary outer-fold models and all reported prediction/metric tables. The original 140-file export manifest is preserved in `provenance/original-results-manifest.json`; the bundled results manifest explicitly lists the retained subset. Extra seed and ablation model binaries are omitted, while their predictions and results remain included. See [reproduction instructions](../REPRODUCING.md) for the optional prepared-waveform download and notebook execution order.
-
-Analysis is implemented in ordered notebooks. [Notebook 00](../notebooks/00_prepare_data.ipynb) prepares signals; [01](../notebooks/01_data_inspection.ipynb) documents groups; [02](../notebooks/02_feature_ablation.ipynb) defines the fixed feature experiment. [05–08](../notebooks/05_evaluation_protocol.ipynb) define and execute the frozen nested evaluation. [09](../notebooks/09_nested_results.ipynb) checks results, [10](../notebooks/10_cnn_implementation_audit.ipynb) audits inference and thresholds, and [11](../notebooks/11_cnn_curves_and_raw_signals.ipynb) traces selected learning curves and source signals. [Notebook 12](../notebooks/12_final_report.ipynb) verifies the reported tables and renders the illustrated report. Use the project Python environment (`uv sync --locked`) and execute notebooks with the project kernel.
-
-The evaluated run is `real-20261109-v1` under `data/processed/portfolio-v2/plan001-real-20261108/full/`. Its 29 configurations include fixed ablations, tuned pipelines, repeat seeds and trivial references. Every configuration contains one outer prediction for each cohort window. All 24 candidates per pipeline and outer fold are accounted for. The complete result export contains 140 hashed artifacts; no fitting failures were recorded. SVC deprecation warnings were recorded without changing the frozen implementation.
-
-Source notebooks contain no large outputs. This showcase tracks the curated datasets, primary models, executed notebook snapshots and report figures. Candidate checkpoints and redundant caches are omitted; new run outputs are ignored. The exact prepared waveforms are an optional release download. The report retains its main tables, and Notebook 12 produces a standalone HTML copy with embedded figures that can be shared without distributing recordings or checkpoints.
-
-Freeze identity: `1765caa330e2136b1f16f61828fae0a568bcc36b0730bd3b2cfd9b3d7e2f1363`.
-
-Detailed evidence: [nested metrics and uncertainty](portfolio-nested-results.md), [implementation audit](cnn-implementation-audit.md), [selected curves and raw-signal audit](cnn-training-and-raw-signal-audit.md). These supporting files preserve the audit detail behind the report's conclusions.

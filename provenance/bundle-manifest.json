@@ -12,8 +12,8 @@
     "tests_warning": "Known sklearn SVC FutureWarning",
     "start_here": "Source hashes and 3381 held-out LR scores verified",
     "cnn_audit": "Curated primary-model replay and temporary input reconstruction passed",
-    "report_notebook": "Tables checked and figures regenerated from curated distribution",
-    "pdf": "Rendered pages visually inspected; final report contains 12 pages",
+    "report_notebook": "All report result tables rechecked after IMRaD restructuring; no numerical changes.",
+    "pdf": "12-page single-column IMRaD manuscript; Shi Wei Leong on title page and PDF metadata; all pages rendered and visually inspected.",
     "public_download_fallback": "Regression checked: installed but unauthenticated gh falls back to public HTTP.",
     "independent_review": {
       "type": "Independent subagent artifact/software review, not scientific peer review",
@@ -55,8 +55,8 @@
       "bytes": 5
     },
     "CITATION.cff": {
-      "sha256": "f5d2bf3f03178e303e2d194134f061ca7957b9b45a06261a06caef158a413272",
-      "bytes": 362
+      "sha256": "0a6287d94bac2e4229a1821e80a9c0d2fd281e724cb13c03f79ae6992e031587",
+      "bytes": 424
     },
     "LICENSE": {
       "sha256": "a97f9002076d9b09e10770a5f2b599e3b4f673e9949384db3791fcdc62d97c7a",
@@ -771,8 +771,8 @@
       "bytes": 7092
     },
     "docs/final-study-report.md": {
-      "bytes": 29203,
-      "sha256": "5fd8af08af2474beb77be8ebf0fd72624b707620e354b3c1aa033f250993fe39"
+      "bytes": 29244,
+      "sha256": "8fd5abc2d9924c09702299e3ca2c3636cb9b5c022d02da473338e004130a8494"
     },
     "docs/literature-baselines.md": {
       "sha256": "142dc0f2caaa238e4cdd774889d07b67d61dfd8194ee067fad595eae9a4f0edd",
@@ -783,8 +783,8 @@
       "bytes": 750
     },
     "docs/phase-2-results.md": {
-      "sha256": "93a15548fb1b50dea77c1a3022a94c3beb5431ab1a7dfefdd5c6bc1b37582153",
-      "bytes": 804
+      "sha256": "7e4ae2b80a775b6c9c6f018d69374b20c61d20dfea7562d0f437af9fde78484f",
+      "bytes": 810
     },
     "docs/portfolio-evaluation-protocol.md": {
       "sha256": "34838a0eb6284bba43c31357e1fbd9a264936c30e5fce465e3a184babede59c4",
@@ -891,8 +891,8 @@
       "bytes": 706698
     },
     "notebooks/executed/12_final_report.ipynb": {
-      "sha256": "0d06b0983fc0103b06f5982b7b333ae08efda9e9af1128729bc88fd49ae2d1c8",
-      "bytes": 218552
+      "sha256": "273f1de3b98996cbff6410635da1fad8dc76bc0a81db95e7d11c1d3c9f7baa7e",
+      "bytes": 218587
     },
     "notebooks/executed/START_HERE.ipynb": {
       "sha256": "77cb30d688cae9544aa2b0216be5c9b08d5ebd057634e9b1a48572355cfda93c",
@@ -1019,12 +1019,12 @@
       "bytes": 22932
     },
     "reports/final-study-report.html": {
-      "bytes": 373124,
-      "sha256": "2979adb5b814e816a79a18067a675b5162c8319926664eba351dde0c99068cef"
+      "bytes": 373113,
+      "sha256": "152a373cf5ba81a81ebd4778254c0ed32a505d659d8f736a6411c6bc72bfe807"
     },
     "reports/final-study-report.pdf": {
-      "bytes": 328638,
-      "sha256": "94969fc625e58bdc69d7d256d7c8b2251b3c276040a53d45c8adc03d819206c0"
+      "bytes": 328934,
+      "sha256": "ce6ff3f45b3374ad818be02f65b482f3cf564ce408eaf5384b2c98f90950800d"
     },
     "requirements-report.txt": {
       "sha256": "1fa7b397510bd2f6b00aee8e632213c0e2939b5c7e58968140d6d221d0250294",
@@ -1063,8 +1063,8 @@
       "bytes": 2101
     },
     "tools/build_pdf.py": {
-      "sha256": "a0d2883de1d54e98ee1b0ef758abb2fc627e31886752e5c4bd79914e3219aa7c",
-      "bytes": 9434
+      "sha256": "27ebf97d85a7d585b3735040ca2c94d742100d2d92364aa950d71ccb6a81b2ef",
+      "bytes": 10958
     },
     "tools/fetch_prepared_waveforms.py": {
       "sha256": "84c0553edaa7b3f0393da8f0de3e1fbc7745598f739f6d8260f8b237558dcbdb",

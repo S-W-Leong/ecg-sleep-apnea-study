@@ -6,3 +6,6 @@ version: 1.0.0
 license: MIT
 repository-code: "https://github.com/S-W-Leong/ecg-sleep-apnea-study"
 url: "https://github.com/S-W-Leong/ecg-sleep-apnea-study"
+authors:
+  - family-names: "Leong"
+    given-names: "Shi Wei"
