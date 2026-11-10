@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "Please cite the report and the original PhysioNet dataset and method sources."
+type: software
+title: "RR interval features and a lightweight CNN for sleep apnea classification"
+version: 1.0.0
+license: MIT
+repository-code: "https://github.com/S-W-Leong/ecg-sleep-apnea-study"
+url: "https://github.com/S-W-Leong/ecg-sleep-apnea-study"

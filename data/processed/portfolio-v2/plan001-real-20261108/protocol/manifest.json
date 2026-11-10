@@ -1,0 +1,48 @@
+{
+  "identity_hash": "df0243fbbb0f2ce0a4dab8d176219c273a234dd63d017d1192587c10a12aec64",
+  "configuration": {
+    "version": "2.0-draft",
+    "status": "draft",
+    "synthetic": false,
+    "outer_seed": 67,
+    "outer_splits": 5,
+    "inner_splits": 3,
+    "stopping_splits": 4,
+    "primary_training_seed": 67,
+    "repeat_seeds": [
+      167,
+      267
+    ],
+    "input_hz": 100,
+    "input_samples": 6000,
+    "baseline_eligibility": "pending Plan 002",
+    "search_compute": "pending Plan 003",
+    "limitations": [
+      "original patient identities unavailable",
+      "prior test exposure",
+      "retrospective research only"
+    ]
+  },
+  "sources": {
+    "notebook": "af2041f4633b0148ae254fba4a55f8137b1db79f8b3b93cb56a9103364a19d96",
+    "lock": "22f129a87faa9d8cd22c89ae800ee2259feff82eeb72aac026a385ab7d024fe7",
+    "written_protocol": "34838a0eb6284bba43c31357e1fbd9a264936c30e5fce465e3a184babede59c4",
+    "windows": "16079d2e48249709207b6e1c7cf07f9aeb25686ff9fe4ceffeb70bc3990266e7",
+    "groups": "6b86fc98a38fd9eaed55d1bdda2ed421f157af82cdce074a77f4f4c3e552aac7",
+    "features": "7b54b157aeb4d1c51431b198d1ffbb32cef159fc7560836c7fe9935106f78afc"
+  },
+  "environment": {
+    "numpy": "2.5.4",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1",
+    "pyarrow": "23.0.1"
+  },
+  "python": "3.12.13",
+  "artifacts": {
+    "metrics.json": "e8a6ddbe1417be4db644967d0d731d07bba3d60d29b64903358e26582fe6f2e3",
+    "fold_assignments.csv": "173edb71c37a69f293e24274d0b14bcdb18e8012bb2b0b3b37c7f82fb0752a9a",
+    "cnn_stop_assignments.csv": "7f490d9a22a2390516f7b2bdcd9b5ed7092fdee4bea9043a631f7719a3267e9f",
+    "cohort.parquet": "8990745e088d1eac76fc770fbb2365cc922c719ce20454d24b4b5d7abdb70852",
+    "protocol.json": "91af14fde329f6a4d482b6cc8c048a1707cf6414d5bd51ef5d717488508ed5ad"
+  }
+}

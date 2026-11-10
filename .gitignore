@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+.env
+.env.*
+scratch/
+reports/portfolio-v2/
+data/processed/phase1/waveforms/
+data/processed/portfolio-v2/**/checkpoints/
+data/processed/portfolio-v2/**/evaluation/
+data/processed/portfolio-v2/**/inputs/
+data/processed/portfolio-v2/**/execution.lock
+*.tar.gz

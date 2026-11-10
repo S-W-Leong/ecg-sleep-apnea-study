@@ -1,0 +1,4 @@
+# Optional PDF authoring dependencies; not required to read reports or run model analysis.
+reportlab==4.4.9
+pypdf==6.10.0
+mistune==3.4.0

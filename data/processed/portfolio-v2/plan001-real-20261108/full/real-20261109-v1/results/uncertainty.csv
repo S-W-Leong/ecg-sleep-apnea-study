@@ -1,0 +1,5 @@
+reference,comparison,metric,estimate,lower,upper,valid_draws,skipped_draws,seed,scope
+xgboost,cnn,average_precision,0.07578539723075295,-0.07396028917206378,0.2363287199148088,2000,0,20261108,exploratory; fixed predictions only; excludes tuning uncertainty
+xgboost,linear_svm,average_precision,-0.05203419745834914,-0.13334305178173983,0.036802326153979374,2000,0,20261108,exploratory; fixed predictions only; excludes tuning uncertainty
+xgboost,logistic_regression,average_precision,-0.08624568406903366,-0.16410964606127607,-0.007629661305579929,2000,0,20261108,exploratory; fixed predictions only; excludes tuning uncertainty
+xgboost,random_forest,average_precision,0.00853578160276125,-0.02320104149386852,0.06270865133793682,2000,0,20261108,exploratory; fixed predictions only; excludes tuning uncertainty

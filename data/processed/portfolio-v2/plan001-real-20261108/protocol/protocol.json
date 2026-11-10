@@ -1,0 +1,23 @@
+{
+  "version": "2.0-draft",
+  "status": "draft",
+  "synthetic": false,
+  "outer_seed": 67,
+  "outer_splits": 5,
+  "inner_splits": 3,
+  "stopping_splits": 4,
+  "primary_training_seed": 67,
+  "repeat_seeds": [
+    167,
+    267
+  ],
+  "input_hz": 100,
+  "input_samples": 6000,
+  "baseline_eligibility": "pending Plan 002",
+  "search_compute": "pending Plan 003",
+  "limitations": [
+    "original patient identities unavailable",
+    "prior test exposure",
+    "retrospective research only"
+  ]
+}

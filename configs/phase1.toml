@@ -1,0 +1,18 @@
+fs = 100
+window_seconds = 60
+filter_order = 4
+low_hz = 0.5
+high_hz = 40.0
+rr_min_seconds = 0.3
+rr_max_seconds = 2.0
+min_usable_rr = 20
+flat_std_mv = 0.001
+low_amplitude_span_mv = 0.1
+seed = 67
+exclude_records = ["c05"]
+
+# Only verified shared-source identities belong here. Unmapped records are
+# provisional independent recording groups, not confirmed unique patients.
+[groups]
+c05 = "c05_c06"
+c06 = "c05_c06"

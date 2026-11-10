@@ -1,0 +1,16 @@
+{
+  "doi": "10.1109/EMBC.2012.6347100",
+  "title": "Obstructive sleep apnea detection using SVM-based classification of ECG signal features",
+  "url": "https://zenodo.org/records/1267839/files/article.pdf",
+  "retrieved": "2026-11-08",
+  "pages": "4938\u20134941; methods III.C\u2013F, page 4940",
+  "sha256": "f8fd79ded1fc12700b994c5bd3a96705a47794b8f439dc48bb29a2e18a532a07",
+  "correction_check": {
+    "source": "https://api.crossref.org/works/10.1109/EMBC.2012.6347100",
+    "update_to": [],
+    "relation": {},
+    "scope": "No linked notice in retrieved Crossref metadata; not proof none exists; publisher page access restricted"
+  },
+  "reuse": "Independent attributed implementation; no author code, weights or paper redistributed in Git",
+  "adaptation": "60-second local RR features with project beat/quality policy; omit recording-wide summaries; linear SVM"
+}

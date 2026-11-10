@@ -1,0 +1,8 @@
+{
+  "primary": "mean outer-fold average_precision_score",
+  "secondary": "pooled OOF metrics; record/group summaries",
+  "threshold": "maximum inner OOF F1; lowest threshold on ties",
+  "bootstrap": "group weights; 2000 draws; 2.5/97.5 percentiles; >=1000 valid",
+  "seed": 20261108,
+  "score_kind": "probability or decision score; calibration not assumed"
+}

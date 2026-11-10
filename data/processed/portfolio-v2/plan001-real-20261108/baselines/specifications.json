@@ -1,0 +1,100 @@
+{
+  "method_id": "almazaydeh2012_local_rr_linear_svm_adapted",
+  "status": "adapted",
+  "main_matrix": true,
+  "source_doi": "10.1109/EMBC.2012.6347100",
+  "source_sha256": "f8fd79ded1fc12700b994c5bd3a96705a47794b8f439dc48bb29a2e18a532a07",
+  "representation": "11 local RR features",
+  "context_seconds": 60,
+  "input_hz": 100,
+  "required_signals": [
+    "single-lead ECG",
+    "project detected RR intervals"
+  ],
+  "feature_order": [
+    "mean_rr_ms",
+    "sdrr_ms",
+    "rr50_decrease_count",
+    "rr50_increase_count",
+    "prr50_decrease_fraction",
+    "prr50_increase_fraction",
+    "sdsd_ms",
+    "rmssd_ms",
+    "median_rr_ms",
+    "iqr_rr_ms",
+    "mean_absolute_rr_deviation_ms"
+  ],
+  "feature_definitions": {
+    "mean_rr_ms": "mean(r)",
+    "sdrr_ms": "std(r, ddof=1)",
+    "rr50_decrease_count": "sum(d < -50 ms)",
+    "rr50_increase_count": "sum(d > 50 ms)",
+    "prr50_decrease_fraction": "decrease_count/n",
+    "prr50_increase_fraction": "increase_count/n",
+    "sdsd_ms": "std(d, ddof=1)",
+    "rmssd_ms": "sqrt(mean(d**2))",
+    "median_rr_ms": "median(r)",
+    "iqr_rr_ms": "linear_quantile(r,.75)-linear_quantile(r,.25)",
+    "mean_absolute_rr_deviation_ms": "mean(abs(r-mean(r)))"
+  },
+  "interval_policy": "plausible within-minute endpoints; preserve original adjacency",
+  "minimum_intervals": 20,
+  "minimum_pairs": 10,
+  "normalization": "fit-only median imputation then StandardScaler",
+  "architecture": null,
+  "reference_settings": {
+    "kernel": "linear",
+    "C": 1,
+    "class_weight": null
+  },
+  "tuning": {
+    "tool": "GridSearchCV",
+    "C": [
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.1,
+      0.3,
+      1,
+      3,
+      10,
+      30,
+      100,
+      1000
+    ],
+    "class_weight": [
+      null,
+      "balanced"
+    ],
+    "candidates": 24,
+    "score": "average_precision"
+  },
+  "score_kind": "decision_function",
+  "calibration": false,
+  "adaptations": [
+    "60s instead of selected 10/15/30s epochs",
+    "no recording-wide mean/SD",
+    "project GQRS and quality policy",
+    "explicit sample SD and quantile conventions",
+    "fold-local imputation/scaling and grouped evaluation",
+    "new tuning/threshold protocol"
+  ],
+  "fidelity": "independent method adaptation, not author-code reproduction",
+  "fixture": {
+    "rr_seconds": [
+      0.8,
+      0.9,
+      1.0,
+      0.8
+    ],
+    "accepted": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "minimum_intervals": 4,
+    "minimum_pairs": 3
+  }
+}

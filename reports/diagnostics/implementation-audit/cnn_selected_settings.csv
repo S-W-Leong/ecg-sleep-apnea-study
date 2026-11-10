@@ -1,0 +1,6 @@
+outer_fold,analysis,model,feature_set,seed,candidate,settings,threshold,inner_mean_ap,calibrated_epochs,outer_epochs
+0,tuned,cnn,waveform_100hz,67,11.0,"{'batch_size': 128, 'learning_rate': 0.0029448397059543014, 'pos_weight': 'balanced', 'weight_decay': 2.8720319230390355e-05}",0.42492902278900146,0.6607030942706079,"[1, 1, 2]",1.0
+1,tuned,cnn,waveform_100hz,67,5.0,"{'batch_size': 32, 'learning_rate': 0.0014173500995744112, 'pos_weight': 1, 'weight_decay': 1.1930408297553273e-06}",0.28678104281425476,0.6805097508721584,"[1, 12, 1]",1.0
+2,tuned,cnn,waveform_100hz,67,2.0,"{'batch_size': 128, 'learning_rate': 0.0010115252443977662, 'pos_weight': 1, 'weight_decay': 2.6697626807608166e-05}",0.3689882457256317,0.6230094378156034,"[4, 3, 1]",3.0
+3,tuned,cnn,waveform_100hz,67,13.0,"{'batch_size': 64, 'learning_rate': 0.0003240765111670221, 'pos_weight': 1, 'weight_decay': 0.006014921703928202}",0.24696773290634155,0.38585800117863317,"[2, 5, 2]",2.0
+4,tuned,cnn,waveform_100hz,67,14.0,"{'batch_size': 64, 'learning_rate': 0.0002017942932903654, 'pos_weight': 1, 'weight_decay': 0.0012860333261715568}",0.2403109073638916,0.4807112845585125,"[23, 1, 1]",1.0

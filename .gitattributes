@@ -1,0 +1,13 @@
+# Preserve exact scientific/source bytes across platforms.
+data/raw/** -text -diff
+data/processed/** -text
+provenance/** -text
+notebooks/** -text
+*.pdf binary
+*.parquet binary
+*.pkl binary
+*.pt binary
+*.npz binary
+*.dat binary
+*.apn binary
+*.png binary

@@ -1,0 +1,44 @@
+[
+  {
+    "method_id": "almazaydeh2012_local_rr_linear_svm_adapted",
+    "status": "adapted",
+    "main_matrix": true,
+    "reason": "linear SVM/local RR; explicit 60s adaptation"
+  },
+  {
+    "method_id": "dey2018_cnn",
+    "status": "pending",
+    "main_matrix": false,
+    "doi": "10.1007/s13534-017-0055-y",
+    "reason": "6000-sample CNN; full implementation not verified; optional deferred"
+  },
+  {
+    "method_id": "wang2019_lenet",
+    "status": "contextual_only",
+    "main_matrix": false,
+    "doi": "10.7717/peerj.7731",
+    "reason": "five-minute RR/amplitude input; supplement not copied"
+  },
+  {
+    "method_id": "physionet_apdet",
+    "status": "contextual_only",
+    "main_matrix": false,
+    "url": "https://physionet.org/content/apdet/1.0.0/",
+    "reason": "five-minute NN/Hilbert context and prior database development"
+  },
+  {
+    "method_id": "constant_negative",
+    "status": "eligible",
+    "main_matrix": true
+  },
+  {
+    "method_id": "constant_positive",
+    "status": "eligible",
+    "main_matrix": true
+  },
+  {
+    "method_id": "training_prevalence",
+    "status": "eligible",
+    "main_matrix": true
+  }
+]
